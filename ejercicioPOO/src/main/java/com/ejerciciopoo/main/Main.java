@@ -8,9 +8,10 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import com.ejerciciopoo.entidades.Persona;
-import com.ejerciciopoo.entidades.Ranking;
-import com.ejerciciopoo.entidades.Skill;
+import com.ejerciciopoo.entidades.Cliente;
+import com.ejerciciopoo.entidades.Pais;
+
+
 
 
 
@@ -22,56 +23,43 @@ public class Main {
 	static SessionFactory sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
 
 	public static void main(String[] args) {
-		Persona persona= new Persona("Elvis Calderon");
-		ingresarPersona(persona);
-		Persona persona1= new Persona("Jair Calderon");
-		ingresarPersona(persona1);
+		Cliente cliente= new Cliente(0,"joel ","olivos","mendez");
+		ingresarCliente(cliente);
+		Cliente cliente1= new Cliente(1,"choez ","choez","super");
+		ingresarCliente(cliente1);
 		
-		Ranking ranking= new Ranking(3);
-		ingresarRanking(ranking);
-		Ranking ranking1= new Ranking(1);
-		ingresarRanking(ranking1);
-		Ranking ranking2= new Ranking(2);
-		ingresarRanking(ranking2);
+		Pais pais= new Pais(0,"ecuador ");
+		ingresarpais(pais);
+		Pais pais1= new Pais(1,"mexico ");
+		ingresarpais(pais1);
 		
-		Skill skill= new Skill("Programacion");
-		ingresarSkill(skill);
-		Skill skill1= new Skill("POO");
-		ingresarSkill(skill1);
-		Skill skill2= new Skill("Analisis");
-		ingresarSkill(skill2);
+		
+		
+	
 
 	}
-	static void ingresarPersona(Persona persona) {
+	static void ingresarCliente(Cliente cliente) {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.save(persona);
+		session.save(cliente);
 		session.getTransaction().commit();
 		session.close();
 	}
 	
-	static void ingresarSkill(Skill skill) {
+	static void ingresarpais(Pais pais) {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
-		session.save(skill);
+		session.save(pais);
 		session.getTransaction().commit();
 		session.close();
 
 	}
 	
-	static void ingresarRanking(Ranking ranking) {
+        static List<Cliente> getCliente(){
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		session.save(ranking);
-		session.getTransaction().commit();
-		session.close();
+		List<Cliente> pais=(List<Cliente>)session.createQuery("from cliente",Cliente.class ).list();
+		return pais;
+	}
 
-	}
-	
-	static List<Persona> getPersona(){
-		Session session = sessionFactory.openSession();
-		List<Persona> cursos=(List<Persona>)session.createQuery("from Persona",Persona.class ).list();
-		return cursos;
-	}
 
 }
